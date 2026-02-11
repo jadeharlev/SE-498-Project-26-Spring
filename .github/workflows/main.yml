@@ -39,6 +39,7 @@ jobs:
       - name: Wait for API to be ready
         run: |
           timeout 60s bash -c 'until curl -s http://localhost:8080/weatherforecast/ > /dev/null; do sleep 2; done'
+          curl -s -v http://localhost:8080/weatherforecast/
           
       - name: Install httpyac
         run: npm install -g httpyac
