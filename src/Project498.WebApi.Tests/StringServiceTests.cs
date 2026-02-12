@@ -23,7 +23,8 @@ public class StringServiceTests
         Assert.Equal(expected, result);
     }
     
-    // Used Day 4 slides for test case examples
+    // Used Day 4 slides and existing tests for test case examples
+    // Also added test cases for other language(s) and apostrophes
     [Theory]
     [InlineData("Hello World", "World Hello")]
     [InlineData("", "")]
@@ -34,6 +35,10 @@ public class StringServiceTests
     [InlineData(" hello  world ", "world hello")]
     [InlineData("hello  world!", "world! hello")]
     [InlineData("a b  c", "c b a")]
+    [InlineData("你好", "好你")]
+    [InlineData("don't","don't")]
+    [InlineData("I don't know","know don't I")]
+    [InlineData("מה קורה?","קורה? מה")]
     public void ReverseWords_WithVariousInputs(string? input, string expected) {
         var result = _stringService.ReverseWords(input!);
         
