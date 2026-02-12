@@ -9,9 +9,7 @@ public class StringService : IStringService
             return string.Empty;
         }
 
-        char[] charArray = input.ToCharArray();
-        Array.Reverse(charArray);
-        return new string(charArray);
+        return ReverseCharacters(input);
     }
     
     // Followed the same general logic/rules as Reverse.
@@ -19,10 +17,40 @@ public class StringService : IStringService
     public string ReverseWords(string input) {
         if (string.IsNullOrWhiteSpace(input)) return string.Empty;
         
-        string[] words = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var words = SplitInputBySpaces(input);
         
+        if (words.Length == 1) {
+            
+            var word = words[0];
+
+            if (ShouldReverseCharacters(word)) {
+                return ReverseCharacters(word);
+            }
+
+            return word;
+        }
+        
+        return ReverseArrayAndJoinWithSpaces(words);
+    }
+
+    private static bool ShouldReverseCharacters(string word) {
+        // Word is multi-character and includes non-ASCII characters
+        // Multi-character check is for optimization; unnecessary to allocate a new array if the operation is inherently idempotent
+        return word.Length > 1 && word.Any(c => c > 127);
+    }
+
+    private static string ReverseArrayAndJoinWithSpaces(string[] words) {
         Array.Reverse(words);
-        
         return string.Join(" ", words);
+    }
+
+    private static string ReverseCharacters(string word) {
+        var chars = word.ToCharArray();
+        Array.Reverse(chars);
+        return new string(chars);
+    }
+
+    private static string[] SplitInputBySpaces(string input) {
+        return input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
     }
 }
